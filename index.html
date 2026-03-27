@@ -3,37 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEW LOOK DZ | طلب ذكي</title>
+    <title>NEW LOOK DZ | متجر الأناقة المتكامل - غليزان</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* التنسيقات الأساسية (نفس التصميم السابق مع تحسينات) */
+        /* الأساسيات */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: #fafafa; padding-top: 80px; }
-        nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; }
-        .logo { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; }
+        body { background-color: #fafafa; color: #1a1a1a; padding-top: 80px; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* الأيقونات */
-        .category-switcher { background: #fff; padding: 15px 5%; position: sticky; top: 70px; z-index: 999; box-shadow: 0 2px 5px rgba(0,0,0,0.01); }
-        .icon-grid { display: flex; justify-content: space-around; gap: 10px; }
-        .category-btn { background: #fff; border: 2px solid #f0f0f0; padding: 10px; width: 32%; text-align: center; cursor: pointer; border-radius: 12px; transition: 0.3s; }
-        .category-img-container { width: 55px; height: 55px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px; border: 2px solid #eee; }
-        .category-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .category-btn.active { border-color: #d4af37; color: #d4af37; }
-        .category-btn.active .category-img-container { border-color: #d4af37; }
+        /* شريط التنقل */
+        nav {
+            background: #fff; position: fixed; top: 0; width: 100%;
+            height: 70px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000;
+        }
+        .logo { font-size: 1.6rem; font-weight: 800; color: #000; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* المنتجات */
-        .products-section { padding: 20px 5%; display: none; }
+        /* قسم أيقونات التبديل المرسومة (Category Switcher) */
+        .category-switcher {
+            background: #fff; padding: 15px 5%; margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
+            position: sticky; top: 70px; z-index: 999;
+        }
+        .icon-grid { display: flex; justify-content: space-around; gap: 10px; flex-wrap: wrap; }
+
+        /* تصميم الزر بالأيقونة المرسومة الجديدة */
+        .category-btn {
+            background: #fff; border: 2px solid #f0f0f0; padding: 15px 10px;
+            width: 32%; max-width: 100px; text-align: center; cursor: pointer;
+            border-radius: 12px; transition: 0.3s ease; color: #666;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* حاوية الأيقونة المرسومة (Icons) الجديدة */
+        .category-icon-container { font-size: 2.2rem; margin-bottom: 8px; color: #888; transition: 0.3s ease; }
+        .category-btn span { font-size: 0.85rem; font-weight: 700; display: block; white-space: nowrap; }
+
+        /* تأثير التفعيل */
+        .category-btn:hover, .category-btn.active {
+            border-color: #d4af37; color: #d4af37;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+        }
+        .category-btn.active .category-icon-container { color: #d4af37; transform: scale(1.05); }
+
+        /* شبكة المنتجات (Grid) */
+        .products-section { padding: 15px 5%; display: none; }
         .products-section.show { display: block; }
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .product-card { background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #eee; position: relative; }
-        .img-container { width: 100%; height: 200px; padding: 10px; background: #fff; }
-        .img-container img { width: 100%; height: 100%; object-fit: contain; }
-        .product-info { padding: 10px; text-align: right; }
-        .price { font-weight: 800; color: #d4af37; }
 
-        /* زر الواتساب "إرسال الموديل" */
+        .section-header { text-align: center; margin-bottom: 30px; }
+        .section-header h2 { font-size: 1.8rem; font-weight: 400; color: #333; }
+        .section-header span { font-weight: 800; border-bottom: 3px solid #d4af37; padding-bottom: 5px; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .product-card { background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; position: relative; transition: 0.3s; padding-bottom: 10px; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+
+        .img-container { width: 100%; height: 280px; overflow: hidden; background: #fff; padding: 10px; display: flex; align-items: center; justify-content: center; }
+        .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.5s; }
+
+        .product-info { padding: 12px; text-align: right; border-top: 1px solid #f8f8f8; }
+        .product-info h3 { font-size: 0.95rem; font-weight: 400; color: #333; margin-bottom: 5px; }
+        .price { font-weight: 800; font-size: 1.15rem; color: #d4af37; }
+
+        /* زر طلب الواتساب الذكي */
         .wa-order-btn {
             display: flex; align-items: center; justify-content: center; gap: 8px;
             background: #25D366; color: white; text-decoration: none;
@@ -42,61 +75,238 @@
         }
         .wa-order-btn:hover { background: #128C7E; transform: translateY(-2px); }
 
-        footer { background: #1a1a1a; color: #fff; padding: 30px; text-align: center; margin-top: 20px; }
+        /* التذييل بسيط */
+        footer { background: #1a1a1a; color: #fff; padding: 40px 5%; text-align: center; margin-top: auto; }
+        .footer-logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; }
+        .wa-link { color: #d4af37; text-decoration: none; font-weight: 700; }
+
+        /* الهاتف */
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .img-container { height: 210px; padding: 5px; }
+            .category-switcher { top: 70px; }
+            .category-icon-container { font-size: 1.8rem; }
+            .category-btn { padding: 12px 8px; }
+            .product-info h3 { font-size: 0.85rem; }
+            .price { font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
 
-    <nav><div class="logo">NEW LOOK</div></nav>
+    <nav>
+        <div class="logo">NEW LOOK</div>
+    </nav>
 
     <div class="category-switcher">
         <div class="icon-grid">
             <div class="category-btn active" onclick="showCategory('pants', this)">
-                <div class="category-img-container"><img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=100"></div>
+                <div class="category-icon-container"><i class="fas fa-trousers"></i></div>
                 <span>السراويل</span>
             </div>
             <div class="category-btn" onclick="showCategory('shirts', this)">
-                <div class="category-img-container"><img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=100"></div>
+                <div class="category-icon-container"><i class="fas fa-shirt"></i></div>
                 <span>القمصان</span>
             </div>
             <div class="category-btn" onclick="showCategory('jackets', this)">
-                <div class="category-img-container"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100"></div>
+                <div class="category-icon-container"><i class="fas fa-coat"></i></div>
                 <span>السترات</span>
             </div>
         </div>
     </div>
 
     <section id="pants" class="products-section show">
+        <div class="section-header"><h2>تشكيلة <span>السراويل</span> المتميزة</h2></div>
         <div class="product-grid">
             <div class="product-card">
-                <div class="img-container"><img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" id="img1"></div>
-                <div class="product-info"><h3>سروال جينز أزرق</h3><p class="price">5,500 د.ج</p></div>
-                <a href="https://wa.me/213772388571?text=طلب موديل جديد:%0Aسروال جينز أزرق%0Aالسعر: 5,500 د.ج%0Aرابط الصورة: https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" target="_blank" class="wa-order-btn">
-                    <i class="fab fa-whatsapp"></i> اطلب الموديل
-                </a>
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=600" alt="سروال جينز كلاسيك"></div>
+                <div class="product-info"><h3>سروال جينز كلاسيك أزرق</h3><p class="price">5,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال جينز كلاسيك أزرق%0Aالسعر: 5,500 د.ج%0Aرابط الصورة: https://images.unsplash.com/photo-1542272604-787c3835535d?w=600" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
             </div>
             <div class="product-card">
-                <div class="img-container"><img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500"></div>
-                <div class="product-info"><h3>سروال تشينو بيج</h3><p class="price">4,800 د.ج</p></div>
-                <a href="https://wa.me/213772388571?text=طلب موديل جديد:%0Aسروال تشينو بيج%0Aالسعر: 4,800 د.ج%0Aرابط الصورة: https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500" target="_blank" class="wa-order-btn">
-                    <i class="fab fa-whatsapp"></i> اطلب الموديل
-                </a>
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600" alt="سروال تشينو"></div>
+                <div class="product-info"><h3>سروال تشينو عصري بيج</h3><p class="price">4,800 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال تشينو عصري بيج%0Aالسعر: 4,800 د.ج%0Aرابط الصورة: https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1584318717992-d61546255147?w=600" alt="سروال كارجو"></div>
+                <div class="product-info"><h3>سروال كارجو زيتي بجيوب</h3><p class="price">5,900 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال كارجو زيتي%0Aالسعر: 5,900 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600" alt="سروال جينز ممزق"></div>
+                <div class="product-info"><h3>سروال جينز أسود ممزق</h3><p class="price">5,700 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال جينز أسود%0Aالسعر: 5,700 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1594633225934-b39cd1b84f33?w=600" alt="سروال رسمي"></div>
+                <div class="product-info"><h3>سروال رسمي رمادي غامق</h3><p class="price">6,200 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال رسمي رمادي%0Aالسعر: 6,200 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1506629082923-f9d689930704?w=600" alt="سروال تشينو أزرق"></div>
+                <div class="product-info"><h3>سروال تشينو أزرق فاتح</h3><p class="price">4,900 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال تشينو أزرق%0Aالسعر: 4,900 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1605518216938-16e6d1c9f4d1?w=600" alt="سروال جينز أبيض"></div>
+                <div class="product-info"><h3>سروال جينز أبيض عصري</h3><p class="price">5,800 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال جينز أبيض%0Aالسعر: 5,800 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=600" alt="سروال جينز داكن"></div>
+                <div class="product-info"><h3>سروال جينز أزرق داكن (Raw)</h3><p class="price">6,000 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال جينز داكن%0Aالسعر: 6,000 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1582552938382-7f9a1e0896bd?w=600" alt="سروال كارجو أسود"></div>
+                <div class="product-info"><h3>سروال كارجو أسود بريميوم</h3><p class="price">6,300 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال كارجو أسود%0Aالسعر: 6,300 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1592161722650-7f287f3f1dae?w=600" alt="سروال رسمي كحلي"></div>
+                <div class="product-info"><h3>سروال رسمي كحلي فاتح</h3><p class="price">6,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسروال رسمي كحلي%0Aالسعر: 6,500 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="shirts" class="products-section">
+        <div class="section-header"><h2>تشكيلة <span>القمصان</span> العصرية</h2></div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600" alt="قميص أبيض"></div>
+                <div class="product-info"><h3>قميص كلاسيك أبيض بريميوم</h3><p class="price">4,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aقميص كلاسيك أبيض%0Aالسعر: 4,500 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1603252109360-909baaf261c7?w=600" alt="قميص جينز"></div>
+                <div class="product-info"><h3>قميص جينز أزرق عصري</h3><p class="price">4,200 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aقميص جينز أزرق%0Aالسعر: 4,200 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=600" alt="تي شيرت أسود"></div>
+                <div class="product-info"><h3>تي شيرت بيسك قطن أسود</h3><p class="price">2,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aتي شيرت بيسك أسود%0Aالسعر: 2,500 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600" alt="تي شيرت أبيض"></div>
+                <div class="product-info"><h3>تي شيرت بيسك قطن أبيض</h3><p class="price">2,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aتي شيرت بيسك أبيض%0Aالسعر: 2,500 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600" alt="قميص كحلي"></div>
+                <div class="product-info"><h3>قميص أوكسفورد رسمي كحلي</h3><p class="price">4,700 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aقميص أوكسفورد كحلي%0Aالسعر: 4,700 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600" alt="قميص كاروهات"></div>
+                <div class="product-info"><h3>قميص كاروهات أحمر وأسود</h3><p class="price">4,900 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aقميص كاروهات%0Aالسعر: 4,900 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600" alt="تي شيرت جرافيك"></div>
+                <div class="product-info"><h3>تي شيرت جرافيك عصري</h3><p class="price">3,000 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aتي شيرت جرافيك%0Aالسعر: 3,000 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=600" alt="قميص بولو رمادي"></div>
+                <div class="product-info"><h3>قميص بولو عصري رمادي</h3><p class="price">3,800 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aقميص بولو رمادي%0Aالسعر: 3,800 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=600" alt="قميص بولو كحلي"></div>
+                <div class="product-info"><h3>قميص بولو كلاسيك كحلي</h3><p class="price">3,800 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aقميص بولو كحلي%0Aالسعر: 3,800 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1603252109303-2751441dd15e?w=600" alt="قميص جينز داكن"></div>
+                <div class="product-info"><h3>قميص جينز داكن بريميوم</h3><p class="price">4,600 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aقميص جينز داكن%0Aالسعر: 4,600 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="jackets" class="products-section">
+        <div class="section-header"><h2>تشكيلة <span>السترات</span> الفاخرة</h2></div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600" alt="سترة جلد"></div>
+                <div class="product-info"><h3>سترة جلدية فاخرة سوداء</h3><p class="price">15,000 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسترة جلدية فاخرة%0Aالسعر: 15,000 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1616150638538-ffb0679a3fc4?w=600" alt="جاكيت جينز أزرق"></div>
+                <div class="product-info"><h3>جاكيت جينز كلاسيك أزرق</h3><p class="price">8,900 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aجاكيت جينز كلاسيك%0Aالسعر: 8,900 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600" alt="سترة منفوخة"></div>
+                <div class="product-info"><h3>سترة منفوخة (Puffer) شتوية</h3><p class="price">12,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسترة منفوخة%0Aالسعر: 12,500 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1601924638867-3a6de6b7a500?w=600" alt="جاكيت بومبر"></div>
+                <div class="product-info"><h3>جاكيت بومبر عصري كحلي</h3><p class="price">9,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aجاكيت بومبر كحلي%0Aالسعر: 9,500 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1620306173009-805178ed46f2?w=600" alt="سترة رياح"></div>
+                <div class="product-info"><h3>سترة رياح (Windbreaker) خفيفة</h3><p class="price">7,800 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسترة رياح خفيفة%0Aالسعر: 7,800 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=600" alt="بليزر رسمي"></div>
+                <div class="product-info"><h3>بليزر رسمي كلاسيك كحلي</h3><p class="price">18,000 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aبليزر رسمي كحلي%0Aالسعر: 18,000 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?w=600" alt="سترة هودي"></div>
+                <div class="product-info"><h3>سترة هودي شتوية ثقيلة سوداء</h3><p class="price">8,200 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسترة هودي ثقيلة%0Aالسعر: 8,200 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1618211029898-7264a8d462f8?w=600" alt="سترة هودي"></div>
+                <div class="product-info"><h3>سترة هودي عصرية بيضاء</h3><p class="price">8,200 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aسترة هودي بيضاء%0Aالسعر: 8,200 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1603787163821-4f056d6a74da?w=600" alt="جاكيت جينز أسود"></div>
+                <div class="product-info"><h3>جاكيت جينز أسود عصري</h3><p class="price">9,200 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aجاكيت جينز أسود%0Aالسعر: 9,200 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
+            </div>
+            <div class="product-card">
+                <div class="img-container"><img src="https://images.unsplash.com/photo-1548624149-f1bc6832e854?w=600" alt="بليزر كاجوال"></div>
+                <div class="product-info"><h3>بليزر كاجوال رمادي فاتح</h3><p class="price">16,500 د.ج</p></div>
+                <a href="https://wa.me/213772388571?text=طلب موديل:%0Aبليزر كاجوال رمادي%0Aالسعر: 16,500 د.ج" target="_blank" class="wa-order-btn"><i class="fab fa-whatsapp"></i> اطلب الموديل</a>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>NEW LOOK DZ - غليزان</p>
+        <div class="footer-logo">NEW LOOK DZ</div>
+        <p>الجزائر | غليزان - جودة تستحقها</p>
+        <p>اطلب مباشرة عبر <a href="https://wa.me/213772388571" class="wa-link"><i class="fab fa-whatsapp"></i> 0772388571</a></p>
     </footer>
 
     <script>
+        // دالة التبديل بين الأقسام
         function showCategory(categoryId, btn) {
+            // إخفاء جميع الأقسام
             const sections = document.querySelectorAll('.products-section');
-            sections.forEach(s => s.classList.remove('show'));
+            sections.forEach(section => section.classList.remove('show'));
+
+            // إظهار القسم المطلوب
             document.getElementById(categoryId).classList.add('show');
+
+            // إلغاء تفعيل جميع الأزرار
             const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach(b => b.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // تفعيل الزر الحالي
             btn.classList.add('active');
+
+            // التمرير للأعلى قليلاً لرؤية أول المنتجات
             window.scrollTo({ top: 75, behavior: 'smooth' });
         }
     </script>

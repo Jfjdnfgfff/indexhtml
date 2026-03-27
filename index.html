@@ -1,0 +1,205 @@
+ <!DOCTYPE html>
+ <html lang="ar" dir="rtl">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>New Look | فخامة الأناقة الرجالية</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+
+     <style>
+         /* إعدادات التصميم العام */
+         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+         body { background-color: #fff; color: #1a1a1a; line-height: 1.6; overflow-x: hidden; }
+
+         /* شريط التنقل */
+         nav {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 20px 8%;
+             background: transparent;
+             position: fixed;
+             width: 100%;
+             top: 0;
+             z-index: 1000;
+             transition: 0.5s;
+         }
+
+         nav.scrolled {
+             padding: 12px 8%;
+             background: rgba(255, 255, 255, 0.95);
+             backdrop-filter: blur(10px);
+             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+         }
+
+         .logo { font-size: 1.8rem; font-weight: 800; letter-spacing: 2px; color: #000; text-transform: uppercase; }
+         .nav-links { display: flex; list-style: none; }
+         .nav-links li { margin: 0 15px; }
+         .nav-links a { text-decoration: none; color: #000; font-size: 0.95rem; font-weight: 600; transition: 0.3s; }
+         .nav-links a:hover { color: #d4af37; }
+
+         /* قسم الترحيب (Hero Section) */
+         .hero {
+             height: 100vh;
+             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                         url('https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=1600');
+             background-size: cover;
+             background-position: center;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             text-align: center;
+             color: white;
+         }
+
+         .hero-content h1 { font-size: 4rem; font-weight: 800; margin-bottom: 20px; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+         .hero-content p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+         .cta-btn {
+             padding: 15px 40px;
+             background: #fff;
+             color: #000;
+             text-decoration: none;
+             font-weight: 700;
+             text-transform: uppercase;
+             letter-spacing: 1px;
+             transition: 0.4s;
+             border-radius: 2px;
+         }
+         .cta-btn:hover { background: #000; color: #fff; transform: scale(1.05); }
+
+         /* الأقسام */
+         section { padding: 100px 8% 60px; }
+         .section-header { text-align: center; margin-bottom: 60px; }
+         .section-header h2 { font-size: 2.5rem; font-weight: 300; position: relative; padding-bottom: 15px; }
+         .section-header h2::after {
+             content: '';
+             position: absolute;
+             bottom: 0;
+             left: 50%;
+             transform: translateX(-50%);
+             width: 80px;
+             height: 3px;
+             background: #000;
+         }
+
+         /* شبكة المنتجات */
+         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+         .product-card { background: #fff; position: relative; overflow: hidden; }
+
+         .img-container { width: 100%; height: 450px; overflow: hidden; background: #f4f4f4; position: relative; }
+         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+         .product-card:hover img { transform: scale(1.08); }
+
+         /* زر الشراء السريع */
+         .quick-buy {
+             position: absolute;
+             bottom: -50px;
+             left: 0;
+             width: 100%;
+             background: rgba(0,0,0,0.8);
+             color: white;
+             padding: 15px;
+             text-align: center;
+             text-decoration: none;
+             transition: 0.4s;
+             font-weight: 600;
+         }
+         .product-card:hover .quick-buy { bottom: 0; }
+
+         .product-info { padding: 20px 0; text-align: right; }
+         .product-info h3 { font-size: 1.2rem; font-weight: 400; color: #333; }
+         .price { font-weight: 700; font-size: 1.3rem; color: #000; margin-top: 5px; }
+
+         /* التذييل (Footer) */
+         footer { background: #000; color: white; padding: 60px 8%; text-align: center; }
+         .social-container { display: flex; justify-content: center; gap: 15px; margin: 25px 0; }
+
+         .social-btn {
+             text-decoration: none;
+             color: white;
+             border: 1px solid rgba(255,255,255,0.3);
+             width: 50px;
+             height: 50px;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             border-radius: 50%;
+             transition: 0.4s;
+             font-size: 1.2rem;
+         }
+
+         .whatsapp-btn:hover { background: #25D366; border-color: #25D366; }
+         .facebook-btn:hover { background: #1877F2; border-color: #1877F2; }
+
+         @media (max-width: 768px) {
+             .hero-content h1 { font-size: 2.5rem; }
+             .nav-links { display: none; }
+             section { padding: 60px 5%; }
+         }
+     </style>
+ </head>
+ <body>
+
+     <nav id="navbar">
+         <div class="logo">New Look</div>
+         <ul class="nav-links">
+             <li><a href="#shirts">القمصان</a></li>
+             <li><a href="#pants">السراويل</a></li>
+             <li><a href="#jackets">السترات</a></li>
+             <li><a href="https://wa.me/213772388571" style="color: #25D366;"><i class="fab fa-whatsapp"></i> تواصل معنا</a></li>
+         </ul>
+     </nav>
+
+     <header class="hero">
+         <div class="hero-content">
+             <h1>أناقتك تبدأ من هنا</h1>
+             <p>اكتشف تشكيلة ربيع/صيف 2026 الحصرية في الجزائر</p>
+             <a href="#shirts" class="cta-btn">تصفح المجموعة</a>
+         </div>
+     </header>
+
+     <section id="shirts">
+         <div class="section-header"><h2>تشكيلة <span>القمصان</span></h2></div>
+         <div class="product-grid">
+             <div class="product-card">
+                 <div class="img-container">
+                     <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600" alt="قميص">
+                     <a href="https://wa.me/213772388571?text=أريد طلب قميص أبيض ناصع" class="quick-buy">اطلب عبر واتساب <i class="fab fa-whatsapp"></i></a>
+                 </div>
+                 <div class="product-info"><h3>قميص أبيض ناصع</h3><p class="price">4,500 د.ج</p></div>
+             </div>
+             <div class="product-card">
+                 <div class="img-container">
+                     <img src="https://images.unsplash.com/photo-1589310243389-94a5518366a1?w=600" alt="قميص">
+                     <a href="https://wa.me/213772388571?text=أريد طلب قميص أسود رسمي" class="quick-buy">اطلب عبر واتساب <i class="fab fa-whatsapp"></i></a>
+                 </div>
+                 <div class="product-info"><h3>قميص أسود رسمي</h3><p class="price">4,200 د.ج</p></div>
+             </div>
+         </div>
+     </section>
+
+     <footer>
+         <div class="logo" style="color: #fff; margin-bottom: 10px;">New Look</div>
+         <p>الجزائر | غليزان - جودة تستحقها</p>
+
+         <div class="social-container">
+             <a href="https://wa.me/213772388571" target="_blank" class="social-btn whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
+             <a href="https://facebook.com" target="_blank" class="social-btn facebook-btn"><i class="fab fa-facebook-f"></i></a>
+         </div>
+
+         <p style="opacity: 0.5; font-size: 0.8rem;">© 2026 NEW LOOK DZ. صُمم بكل حب في الجزائر.</p>
+     </footer>
+
+     <script>
+         const navbar = document.getElementById('navbar');
+         window.addEventListener('scroll', () => {
+             if (window.scrollY > 100) {
+                 navbar.classList.add('scrolled');
+             } else {
+                 navbar.classList.remove('scrolled');
+             }
+         });
+     </script>
+ </body>
+ </html>

@@ -2,214 +2,106 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEW LOOK DZ | متجر الأناقة الرجالية</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW LOOK DZ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        /* الأساسيات */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #fafafa; color: #1a1a1a; padding-top: 65px; padding-bottom: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: #fafafa; padding-top: 70px; }
+        nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 2000; }
+        .logo { font-size: 1.6rem; font-weight: 800; color: #000; }
+        .category-switcher { background: #fff; padding: 15px 5%; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+        .icon-grid { display: flex; justify-content: space-around; gap: 10px; }
+        .category-btn { background: #fff; border: 1px solid #eee; padding: 15px 5px; width: 30%; text-align: center; cursor: pointer; border-radius: 12px; transition: 0.3s; color: #888; display: flex; flex-direction: column; align-items: center; }
+        .category-btn i { font-size: 1.6rem; margin-bottom: 8px; }
+        .category-btn span { font-size: 0.8rem; font-weight: 700; }
+        .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; }
+        .products-section { padding: 20px 5%; display: none; }
+        .products-section.show { display: block; }
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .product-card { background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden; display: flex; flex-direction: column; }
+        .img-container { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; }
+        .img-container img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .product-info { padding: 10px; text-align: center; flex-grow: 1; }
+        .product-info h3 { font-size: 0.85rem; height: 40px; overflow: hidden; }
+        .price { color: #d4af37; font-weight: 800; margin-top: 5px; }
+        .wa-card-btn { display: block; background: #25D366; color: #fff; text-align: center; text-decoration: none; padding: 10px; margin: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; }
 
-        /* الهيدر العلوي */
-        nav {
-            background: #ffffff; position: fixed; top: 0; width: 100%;
-            height: 65px; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 2000;
-        }
-        .logo { font-size: 1.5rem; font-weight: 800; color: #000; text-transform: uppercase; letter-spacing: 1px; }
+        /* التذييل المحدث */
+        footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 50px; }
+        .footer-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; display: block; }
+        .footer-links { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .btn-footer { width: 100%; max-width: 300px; padding: 14px; border-radius: 50px; text-decoration: none; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.9rem; transition: 0.3s; }
 
-        /* شريط الأيقونات ( Category Switcher) - غير ثابت */
-        .category-switcher {
-            background: #ffffff; padding: 15px 0;
-            position: relative; z-index: 1000;
-            border-bottom: 1px solid #f0f0f0;
-            margin-bottom: 10px;
-        }
-        .icon-grid { display: flex; justify-content: center; gap: 12px; padding: 0 15px; }
+        .fb-color { background: #1877F2; color: white; }
+        .wa-color { background: #25D366; color: white; }
+        .call-color { background: #fff; color: #1a1a1a; border: 1px solid #ddd; }
 
-        .category-btn {
-            background: #fff; border: 1.5px solid #eee; padding: 15px 8px;
-            flex: 1; max-width: 100px; text-align: center; cursor: pointer;
-            border-radius: 12px; transition: all 0.3s ease; color: #555;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        /* حجم الأيقونات المرسومة الجديدة */
-        .category-icon-container { font-size: 1.7rem; margin-bottom: 6px; }
-        .category-btn span { font-size: 0.8rem; font-weight: 700; display: block; white-space: nowrap; }
-
-        /* تفعيل القسم (لون ذهبي) */
-        .category-btn:hover, .category-btn.active {
-            border-color: #d4af37; color: #d4af37;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.1);
-        }
-
-        /* شبكة المنتجات */
-        .products-section { padding: 15px; display: none; min-height: 60vh; }
-        .products-section.show { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .section-title { text-align: right; margin-bottom: 20px; font-size: 1.1rem; font-weight: 700; color: #333; }
-        .section-title span { color: #d4af37; }
-
-        /* متجاوب: منتجين في الموبايل */
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-
-        /* متجاوب: أكثر من منتج على الشاشات الأكبر */
-        @media (min-width: 600px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 900px) { .product-grid { grid-template-columns: repeat(5, 1fr); } }
-
-        .product-card { 
-            background: #fff; border-radius: 12px; overflow: hidden; 
-            border: 1px solid #efefef; transition: 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-        .product-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-
-        .img-container { 
-            width: 100%; height: 210px; background: #fff; 
-            display: flex; align-items: center; justify-content: center; 
-            padding: 10px;
-        }
-        .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
-        .product-info { padding: 12px; text-align: center; }
-        .product-info h3 { font-size: 0.8rem; color: #444; margin-bottom: 5px; font-weight: 400; height: 35px; overflow: hidden; }
-        .price { font-weight: 700; color: #d4af37; font-size: 1.1rem; }
-
-        /* زر اطلب الآن الأخضر الموحد */
-        .wa-btn {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            background: #25D366; color: white; text-decoration: none;
-            padding: 10px; margin: 0 10px 12px; border-radius: 10px; 
-            font-weight: 700; font-size: 0.85rem;
-        }
-        .wa-btn:active { background: #1ebd59; }
-
-        /* التذييل بالخلفية السوداء مع الأزرار */
-        footer { 
-            background: #1a1a1a; color: #fff; padding: 50px 20px; 
-            text-align: center; margin-top: 40px; border-radius: 20px 20px 0 0;
-        }
-        .footer-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; display: block; text-transform: uppercase; }
-
-        .footer-buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px; /* المسافة بين زر فيسبوك وواتساب */
-        }
-
-        /* زر الفيسبوك الأزرق */
-        .fb-footer-link {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: #1877F2; color: white; text-decoration: none;
-            padding: 12px 25px; border-radius: 50px; font-weight: 700;
-            font-size: 0.9rem;
-            width: 100%; max-width: 250px;
-            transition: 0.3s;
-        }
-        .fb-footer-link:hover { background: #145dbf; }
-
-        /* زر الواتساب الأسود/الأخضر تحت الفيسبوك */
-        .wa-footer-link {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: #fff; color: #25D366; text-decoration: none;
-            padding: 12px 25px; border-radius: 50px; font-weight: 700;
-            font-size: 0.9rem;
-            width: 100%; max-width: 250px;
-            border: 2px solid #25D366;
-            transition: 0.3s;
-        }
-        .wa-footer-link:hover { background: #25D366; color: #fff; }
-
-        .copyright { margin-top: 40px; font-size: 0.7rem; opacity: 0.4; }
+        @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
     </style>
 </head>
-<body style="padding-top: 65px;">
-
+<body>
     <nav><div class="logo">NEW LOOK</div></nav>
 
     <div class="category-switcher">
         <div class="icon-grid">
-            <div class="category-btn" onclick="showCategory('pants', this)">
-                <div class="category-icon-container"><i class="fas fa-trousers"></i></div>
-                <span>السراويل</span>
-            </div>
-            <div class="category-btn" onclick="showCategory('shirts', this)">
-                <div class="category-icon-container"><i class="fas fa-shirt"></i></div>
-                <span>القمصان</span>
-            </div>
-            <div class="category-btn active" onclick="showCategory('jackets', this)">
-                <div class="category-icon-container"><i class="fas fa-coat"></i></div>
-                <span>السترات</span>
-            </div>
+            <div class="category-btn active" onclick="showCategory('shirts', this)"><i class="fas fa-shirt"></i><span>القمصان</span></div>
+            <div class="category-btn" onclick="showCategory('pants', this)"><i class="fas fa-layer-group"></i><span>السراويل</span></div>
+            <div class="category-btn" onclick="showCategory('jackets', this)"><i class="fas fa-vest"></i><span>السترات</span></div>
         </div>
     </div>
 
-    <section id="jackets" class="products-section show">
-        <h2 class="section-title">أفخم <span>السترات الشتوية</span></h2>
-        <div id="jackets-grid" class="product-grid">
-            <div class="product-card">
-                <div class="img-container"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600" alt=""></div>
-                <div class="product-info"><h3>سترة جلدية سوداء</h3><p class="price">15,000 د.ج</p></div>
-                <a href="https://wa.me/213772388571?text=أريد طلب: سترة جلدية سوداء" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> اطلب الآن</a>
-            </div>
-            <div class="product-card">
-                <div class="img-container"><img src="https://images.unsplash.com/photo-1616150638538-ffb0679a3fc4?w=600" alt=""></div>
-                <div class="product-info"><h3>جاكيت جينز كلاسيك</h3><p class="price">8,900 د.ج</p></div>
-                <a href="https://wa.me/213772388571?text=أريد طلب: جاكيت جينز كلاسيك" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> اطلب الآن</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="shirts" class="products-section">
-        <h2 class="section-title">أحدث موديلات <span>القمصان</span></h2>
-        <div id="shirts-grid" class="product-grid">
-            <div class="product-card">
-                <div class="img-container"><img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600" alt=""></div>
-                <div class="product-info"><h3>قميص أبيض بريميوم</h3><p class="price">4,500 د.ج</p></div>
-                <a href="https://wa.me/213772388571?text=أريد طلب: قميص أبيض بريميوم" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> اطلب الآن</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="pants" class="products-section">
-        <h2 class="section-title">تشكيلة <span>السراويل</span> الجديدة</h2>
-        <div id="pants-grid" class="product-grid">
-            <div class="product-card">
-                <div class="img-container"><img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=600" alt=""></div>
-                <div class="product-info"><h3>سروال جينز كلاسيك أزرق</h3><p class="price">5,500 د.ج</p></div>
-                <a href="https://wa.me/213772388571?text=أريد طلب: سروال جينز كلاسيك أزرق" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> اطلب الآن</a>
-            </div>
-        </div>
-    </section>
+    <section id="shirts" class="products-section show"><div id="shirts-grid" class="product-grid"></div></section>
+    <section id="pants" class="products-section"><div id="pants-grid" class="product-grid"></div></section>
+    <section id="jackets" class="products-section"><div id="jackets-grid" class="product-grid"></div></section>
 
     <footer>
         <span class="footer-logo">NEW LOOK DZ</span>
-
-        <div class="footer-buttons">
-            <a href="https://fb.watch/FWOUABH5oG/" target="_blank" class="fb-footer-link">
+        <div class="footer-links">
+            <a href="https://fb.watch/FWOUABH5oG/" target="_blank" class="btn-footer fb-color">
                 <i class="fab fa-facebook-f"></i> تابعنا على فيسبوك
             </a>
 
-            <a href="https://wa.me/213772388571" target="_blank" class="wa-footer-link">
-                <i class="fab fa-whatsapp"></i> اطلب الآن عبر واتساب
+            <a href="https://wa.me/213772388571" target="_blank" class="btn-footer wa-color">
+                <i class="fab fa-whatsapp"></i> اطلب عبر واتساب
+            </a>
+
+            <a href="tel:0772388571" class="btn-footer call-color">
+                <i class="fas fa-phone"></i> اتصل بنا: 0772388571
             </a>
         </div>
-
-        <p class="copyright">© 2026 جميع الحقوق محفوظة</p>
+        <p style="margin-top: 30px; font-size: 0.75rem; opacity: 0.4;">© 2026 جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        // دالة التبديل بين الأقسام
-        function showCategory(categoryId, btn) {
+        const phoneNumber = "213772388571";
+        const data = {
+            shirts: Array.from({length: 10}, (_, i) => ({ name: `قميص موديل ${i+1}`, price: "4,500", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400" })),
+            pants: Array.from({length: 10}, (_, i) => ({ name: `سروال موديل ${i+1}`, price: "5,500", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400" })),
+            jackets: Array.from({length: 10}, (_, i) => ({ name: `سترة موديل ${i+1}`, price: "12,000", img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400" }))
+        };
+
+        function render(cat, id) {
+            const container = document.getElementById(id);
+            data[cat].forEach(p => {
+                const message = encodeURIComponent(`أريد طلب: ${p.name}\nالسعر: ${p.price} د.ج\nالصورة: ${p.img}`);
+                container.innerHTML += `
+                    <div class="product-card">
+                        <div class="img-container"><img src="${p.img}"></div>
+                        <div class="product-info"><h3>${p.name}</h3><p class="price">${p.price} د.ج</p></div>
+                        <a href="https://wa.me/${phoneNumber}?text=${message}" target="_blank" class="wa-card-btn">اطلب الآن</a>
+                    </div>`;
+            });
+        }
+
+        render('shirts', 'shirts-grid'); render('pants', 'pants-grid'); render('jackets', 'jackets-grid');
+
+        function showCategory(catId, btn) {
             document.querySelectorAll('.products-section').forEach(s => s.classList.remove('show'));
-            document.getElementById(categoryId).classList.add('show');
+            document.getElementById(catId).classList.add('show');
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>

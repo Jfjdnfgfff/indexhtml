@@ -8,25 +8,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: #f4f4f4; padding-top: 70px; }
+        body { background-color: #f8f9fa; padding-top: 70px; padding-bottom: 250px; }
+
+        /* الهيدر */
         nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 2000; }
         .logo { font-size: 1.6rem; font-weight: 800; color: #000; }
+
+        /* أزرار الأقسام */
         .category-switcher { background: #fff; padding: 15px; position: sticky; top: 70px; z-index: 1000; border-bottom: 1px solid #ddd; }
         .icon-grid { display: flex; justify-content: center; gap: 10px; }
-        .category-btn { background: #f8f8f8; border: 1px solid #eee; padding: 10px; width: 100px; text-align: center; cursor: pointer; border-radius: 12px; transition: 0.3s; color: #555; }
-        .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; box-shadow: 0 4px 8px rgba(212,175,55,0.2); }
+        .category-btn { background: #f8f8f8; border: 1px solid #eee; padding: 10px; width: 30%; max-width: 120px; text-align: center; cursor: pointer; border-radius: 12px; transition: 0.3s; color: #555; }
+        .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; box-shadow: 0 4px 8px rgba(212,175,55,0.1); }
         .category-btn i { font-size: 1.4rem; display: block; margin-bottom: 5px; }
         .category-btn span { font-size: 0.8rem; font-weight: 700; }
+
+        /* شبكة المنتجات */
         .products-section { padding: 20px 5%; display: none; }
         .products-section.show { display: block; }
         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .product-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-        .img-container { width: 100%; height: 220px; background: #eee; overflow: hidden; }
+        .img-container { width: 100%; height: 220px; background: #f0f0f0; overflow: hidden; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; }
         .product-info { padding: 12px; text-align: center; }
         .product-info h3 { font-size: 0.9rem; color: #333; margin-bottom: 5px; }
         .price { color: #d4af37; font-weight: 800; font-size: 1.1rem; }
         .wa-card-btn { display: block; background: #25D366; color: #fff; text-align: center; text-decoration: none; padding: 10px; margin: 10px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
+
+        /* الفوتر (الأزرار السفلية) */
+        footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 50px; }
+        .footer-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; display: block; }
+        .footer-links { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .btn-footer { width: 100%; max-width: 300px; padding: 14px; border-radius: 50px; text-decoration: none; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.9rem; transition: 0.3s; }
+        .fb-color { background: #1877F2; color: white; }
+        .wa-color { background: #25D366; color: white; }
+        .call-color { background: #fff; color: #1a1a1a; border: 1px solid #ddd; }
+
         @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
     </style>
 </head>
@@ -46,15 +62,30 @@
     <section id="pants" class="products-section"><div id="pants-grid" class="product-grid"></div></section>
     <section id="jackets" class="products-section"><div id="jackets-grid" class="product-grid"></div></section>
 
-    <script>
-        let globalPhone = "213772388571";
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/1-4Q7QLFYFJqkbcLVRt8NFamjsYnSWjCw3onIz2OV1ak/export?format=csv';
+    <footer>
+        <span class="footer-logo">NEW LOOK DZ</span>
+        <div class="footer-links" id="footer-links">
+            <a href="https://facebook.com/yourpage" target="_blank" class="btn-footer fb-color">
+                <i class="fab fa-facebook-f"></i> تابعنا على فيسبوك
+            </a>
+            <a href="https://wa.me/213772388571" target="_blank" class="btn-footer wa-color">
+                <i class="fab fa-whatsapp"></i> راسلنا عبر واتساب
+            </a>
+            <a href="tel:213772388571" class="btn-footer call-color">
+                <i class="fas fa-phone"></i> اتصل بنا الآن
+            </a>
+        </div>
+        <p style="margin-top: 30px; font-size: 0.75rem; opacity: 0.5;">© 2026 جميع الحقوق محفوظة لـ NEW LOOK DZ</p>
+    </footer>
 
-        // دالة لعرض المنتج في الصفحة
+    <script>
+        let globalPhone = "213772388571"; // رقم الهاتف الافتراضي
+
+        // دالة عرض المنتج
         function renderProduct(cat, name, price, img, id) {
             const container = document.getElementById(`${cat}-grid`);
             if (container) {
-                const msg = encodeURIComponent(`أريد طلب: ${name}\nالسعر: ${price}`);
+                const msg = encodeURIComponent(`أريد طلب المنتج التالي:\nالإسم: ${name}\nالسعر: ${price}`);
                 container.innerHTML += `
                     <div class="product-card">
                         <div class="img-container">
@@ -71,60 +102,35 @@
             }
         }
 
-        // دالة لملء الأقسام بـ 10 صور لكل منها
-        function fillTenImages() {
-            const sections = [
-                { id: 'shirts', name: 'قميص موديل', img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500' },
-                { id: 'pants', name: 'سروال موديل', img: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=500' },
-                { id: 'jackets', name: 'سترة موديل', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500' }
+        // دالة لتعبئة 10 صور في كل قسم تلقائياً
+        function fillAllCategories() {
+            const config = [
+                { id: 'shirts', title: 'قميص موديل', img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=500' },
+                { id: 'pants', title: 'سروال موديل', img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=500' },
+                { id: 'jackets', title: 'سترة موديل', img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500' }
             ];
 
-            sections.forEach(sec => {
+            config.forEach(sec => {
                 const grid = document.getElementById(`${sec.id}-grid`);
-                grid.innerHTML = ''; // تنظيف القسم أولاً
+                grid.innerHTML = ''; // مسح القديم
                 for (let i = 1; i <= 10; i++) {
-                    // نستخدم صورة من unsplash مع إضافة i لتغيير الصورة قليلاً
-                    const pic = `${sec.img}&sig=${i}`;
-                    renderProduct(sec.id, `${sec.name} ${i}`, "5500 د.ج", pic, i);
+                    const finalImg = `${sec.img}&sig=${sec.id}${i}`;
+                    renderProduct(sec.id, `${sec.title} #${i}`, "4500 د.ج", finalImg, i);
                 }
             });
         }
 
-        async function loadData() {
-            // أولاً: نضع الـ 10 صور الافتراضية
-            fillTenImages();
-
-            try {
-                // ثانياً: نحاول جلب البيانات الحقيقية من الإكسل
-                const response = await fetch(csvUrl);
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
-
-                rows.forEach((row, index) => {
-                    const cols = row.split(',');
-                    if (cols.length >= 3) {
-                        const type = cols[0].trim().toLowerCase();
-                        const name = cols[1].trim();
-                        const price = cols[2].trim();
-                        let img = cols[3]?.trim();
-
-                        if (type === "settings" && name === "phone") {
-                            globalPhone = price;
-                        } 
-                        // يمكنك هنا اختيار استبدال الصور الافتراضية بالصور الحقيقية إذا أردت
-                    }
-                });
-            } catch (e) { console.log("تحميل من الإكسل كإعدادات فقط"); }
-        }
-
+        // تبديل الأقسام
         function showCategory(id, btn) {
             document.querySelectorAll('.products-section').forEach(s => s.classList.remove('show'));
             document.getElementById(id).classList.add('show');
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            window.scrollTo({ top: 70, behavior: 'smooth' });
         }
 
-        loadData();
+        // تشغيل التعبئة عند التحميل
+        fillAllCategories();
     </script>
 </body>
 </html>

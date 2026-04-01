@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEW LOOK DZ - Control Panel</title>
+    <title>NEW LOOK DZ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: #fafafa; padding-top: 70px; }
-        nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 2000; }
+        body { background-color: #f4f4f4; padding-top: 70px; }
+        nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 2000; }
         .logo { font-size: 1.6rem; font-weight: 800; color: #000; }
-        .category-switcher { background: #fff; padding: 15px 5%; border-bottom: 1px solid #eee; margin-bottom: 10px; position: sticky; top: 70px; z-index: 1000; }
-        .icon-grid { display: flex; justify-content: space-around; gap: 10px; }
-        .category-btn { background: #fff; border: 1px solid #eee; padding: 15px 5px; width: 30%; text-align: center; cursor: pointer; border-radius: 12px; transition: 0.3s; color: #888; display: flex; flex-direction: column; align-items: center; }
-        .category-btn i { font-size: 1.6rem; margin-bottom: 8px; }
+        .category-switcher { background: #fff; padding: 15px; position: sticky; top: 70px; z-index: 1000; border-bottom: 1px solid #ddd; }
+        .icon-grid { display: flex; justify-content: center; gap: 10px; }
+        .category-btn { background: #f8f8f8; border: 1px solid #eee; padding: 10px; width: 100px; text-align: center; cursor: pointer; border-radius: 12px; transition: 0.3s; color: #555; }
+        .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; box-shadow: 0 4px 8px rgba(212,175,55,0.2); }
+        .category-btn i { font-size: 1.4rem; display: block; margin-bottom: 5px; }
         .category-btn span { font-size: 0.8rem; font-weight: 700; }
-        .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; }
         .products-section { padding: 20px 5%; display: none; }
         .products-section.show { display: block; }
         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .product-card { background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden; display: flex; flex-direction: column; }
-        .img-container { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; position: relative; overflow: hidden; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
-        .product-info { padding: 12px; text-align: center; flex-grow: 1; }
-        .product-info h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; color: #333; }
-        .price { color: #d4af37; font-weight: 800; font-size: 1rem; }
+        .product-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .img-container { width: 100%; height: 200px; background: #eee; overflow: hidden; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { padding: 12px; text-align: center; }
+        .product-info h3 { font-size: 0.9rem; color: #333; margin-bottom: 5px; height: 35px; overflow: hidden; }
+        .price { color: #d4af37; font-weight: 800; font-size: 1.1rem; }
         .wa-card-btn { display: block; background: #25D366; color: #fff; text-align: center; text-decoration: none; padding: 10px; margin: 10px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
-        footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 50px; }
         @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
     </style>
 </head>
 <body>
+
     <nav><div class="logo">NEW LOOK</div></nav>
 
     <div class="category-switcher">
@@ -46,75 +46,84 @@
     <section id="pants" class="products-section"><div id="pants-grid" class="product-grid"></div></section>
     <section id="jackets" class="products-section"><div id="jackets-grid" class="product-grid"></div></section>
 
-    <footer>
-        <span class="footer-logo">NEW LOOK DZ</span>
-        <div id="footer-links"></div>
-    </footer>
-
     <script>
         let globalPhone = "213772388571";
         const csvUrl = 'https://docs.google.com/spreadsheets/d/1-4Q7QLFYFJqkbcLVRt8NFamjsYnSWjCw3onIz2OV1ak/export?format=csv';
 
-        async function loadAllData() {
+        // دالة لتحويل روابط قوقل درايف لروابط مباشرة
+        function formatImgUrl(url) {
+            if (!url) return "https://via.placeholder.com/400x500?text=No+Image";
+            if (url.includes('drive.google.com')) {
+                return url.replace('/view?usp=sharing', '').replace('file/d/', 'uc?export=view&id=').replace('/view', '');
+            }
+            return url;
+        }
+
+        async function loadData() {
             try {
                 const response = await fetch(csvUrl);
                 const data = await response.text();
                 const rows = data.split('\n').slice(1);
 
-                // مسح المحتوى القديم قبل الإضافة الجديدة
-                document.getElementById('shirts-grid').innerHTML = '';
-                document.getElementById('pants-grid').innerHTML = '';
-                document.getElementById('jackets-grid').innerHTML = '';
+                // تنظيف الجداول
+                const grids = ['shirts-grid', 'pants-grid', 'jackets-grid'];
+                grids.forEach(id => document.getElementById(id).innerHTML = '');
 
                 rows.forEach((row, index) => {
                     const cols = row.split(',');
                     if (cols.length >= 3) {
-                        const type = cols[0]?.trim().toLowerCase();
-                        const name = cols[1]?.trim();
-                        const price = cols[2]?.trim();
-                        let img = cols[3]?.trim();
-
-                        // إذا كان الرابط فارغاً أو غير صالح، نضع صورة افتراضية بناءً على النوع
-                        if (!img || img === "" || img.length < 5) {
-                            img = `https://source.unsplash.com/featured/?${type},fashion&sig=${index}`;
-                        }
+                        const type = cols[0].trim().toLowerCase();
+                        const name = cols[1].trim();
+                        const price = cols[2].trim();
+                        let img = formatImgUrl(cols[3]?.trim());
 
                         if (type === "settings") {
                             if (name === "phone") globalPhone = price;
                         } else {
-                            renderProduct(type, name, price, img);
+                            renderProduct(type, name, price, img, index);
                         }
                     }
                 });
-                updateFooter();
-            } catch (e) { console.error("Error:", e); }
+
+                // إذا كان القسم فارغاً، أضف 10 صور تجريبية تلقائياً
+                checkAndFillEmpty();
+
+            } catch (e) { 
+                console.error("CSV Error");
+                checkAndFillEmpty(); // ملء صور حتى لو فشل التحميل
+            }
         }
 
-        function renderProduct(cat, name, price, img) {
+        function renderProduct(cat, name, price, img, id) {
             const container = document.getElementById(`${cat}-grid`);
             if (container) {
                 const msg = encodeURIComponent(`أريد طلب: ${name}\nالسعر: ${price} د.ج`);
                 container.innerHTML += `
                     <div class="product-card">
                         <div class="img-container">
-                            <img src="${img}" onerror="this.src='https://via.placeholder.com/400x500?text=NEW+LOOK'">
+                            <img src="${img}" onerror="this.src='https://loremflickr.com/400/500/fashion,clothes?sig=${id}'">
                         </div>
                         <div class="product-info">
                             <h3>${name}</h3>
                             <p class="price">${price} د.ج</p>
                         </div>
                         <a href="https://wa.me/${globalPhone}?text=${msg}" target="_blank" class="wa-card-btn">
-                            <i class="fab fa-whatsapp"></i> اطلب عبر واتساب
+                            <i class="fab fa-whatsapp"></i> اطلب الآن
                         </a>
                     </div>`;
             }
         }
 
-        function updateFooter() {
-            const footer = document.getElementById('footer-links');
-            footer.innerHTML = `
-                <a href="https://wa.me/${globalPhone}" target="_blank" style="color:white; text-decoration:none;">واتساب: ${globalPhone}</a>
-            `;
+        function checkAndFillEmpty() {
+            const sections = ['shirts', 'pants', 'jackets'];
+            sections.forEach(s => {
+                const grid = document.getElementById(`${s}-grid`);
+                if (grid.children.length === 0) {
+                    for (let i = 1; i <= 10; i++) {
+                        renderProduct(s, `منتج جديد ${i}`, "غير محدد", `https://loremflickr.com/400/500/fashion,clothes?sig=${s}${i}`, i);
+                    }
+                }
+            });
         }
 
         function showCategory(id, btn) {
@@ -124,7 +133,7 @@
             btn.classList.add('active');
         }
 
-        loadAllData();
+        loadData();
     </script>
 </body>
 </html>

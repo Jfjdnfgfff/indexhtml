@@ -1,146 +1,182 @@
- <!DOCTYPE html>
- <html lang="ar" dir="rtl">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>NEW LOOK DZ</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-     <style>
-         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-         body { background-color: #f8f9fa; padding-top: 75px; }
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW LOOK DZ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: #f8f9fa; padding-top: 75px; }
 
-         /* الهيدر */
-         nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 2000; }
-         .logo { font-size: 1.6rem; font-weight: 800; color: #000; }
+        /* الهيدر الأساسي */
+        nav { 
+            background: #fff; position: fixed; top: 0; width: 100%; height: 70px; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 2000; 
+        }
+        .logo { font-size: 1.6rem; font-weight: 800; color: #000; }
 
-         /* شريط الأقسام القابل للتمرير */
-         .category-switcher { 
-             background: #fff; 
-             padding: 15px 0; 
-             position: sticky; 
-             top: 70px; 
-             z-index: 1000; 
-             border-bottom: 1px solid #eee;
-             overflow-x: auto; /* تمكين التمرير الأفقي */
-             white-space: nowrap; 
-             -webkit-overflow-scrolling: touch; /* تمرير سلس على الآيفون */
-         }
-         .category-switcher::-webkit-scrollbar { display: none; } /* إخفاء شريط التمرير */
+        /* شريط الأقسام مع خاصية الإخفاء التلقائي */
+        .category-switcher { 
+            background: #fff; 
+            padding: 15px 0; 
+            position: fixed; /* جعلناه ثابت ليختفي ويظهر بسلاسة */
+            top: 70px; 
+            width: 100%;
+            z-index: 1000; 
+            border-bottom: 1px solid #eee;
+            overflow-x: auto; 
+            white-space: nowrap; 
+            -webkit-overflow-scrolling: touch;
+            transition: transform 0.3s ease-in-out; /* حركة ناعمة عند الاختفاء */
+        }
 
-         .icon-grid { display: inline-flex; padding: 0 15px; gap: 12px; }
+        /* كلاس لإخفاء الشريط عند التمرير للأسفل */
+        .hide-nav { transform: translateY(-100%); top: 0; }
 
-         .category-btn { 
-             display: flex; flex-direction: column; align-items: center; 
-             background: #fff; border: 1.5px solid #eee; padding: 12px; 
-             min-width: 105px; border-radius: 15px; cursor: pointer; transition: 0.3s; color: #888;
-         }
-         .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; box-shadow: 0 4px 10px rgba(212,175,55,0.1); }
-         .category-btn i { font-size: 1.5rem; margin-bottom: 5px; }
-         .category-btn span { font-size: 0.85rem; font-weight: 700; }
+        .category-switcher::-webkit-scrollbar { display: none; }
 
-         /* المنتجات */
-         .products-section { padding: 20px 15px; display: none; }
-         .products-section.show { display: block; }
-         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .icon-grid { display: inline-flex; padding: 0 15px; gap: 12px; }
 
-         .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
-         .img-container { width: 100%; height: 200px; background: #f9f9f9; }
-         .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .category-btn { 
+            display: flex; flex-direction: column; align-items: center; 
+            background: #fff; border: 1.5px solid #eee; padding: 12px; 
+            min-width: 105px; border-radius: 15px; cursor: pointer; transition: 0.3s; color: #888;
+        }
+        .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; }
+        .category-btn i { font-size: 1.5rem; margin-bottom: 5px; }
+        .category-btn span { font-size: 0.85rem; font-weight: 700; }
 
-         .product-info { padding: 12px; text-align: center; }
-         .product-info h3 { font-size: 0.9rem; color: #333; margin-bottom: 5px; }
-         .price { color: #d4af37; font-weight: 800; font-size: 1.1rem; margin-bottom: 10px; }
+        /* مساحة لتعويض الفراغ بسبب fixed */
+        .content-wrapper { margin-top: 100px; }
 
-         .wa-card-btn { 
-             display: flex; align-items: center; justify-content: center; gap: 8px;
-             background: #25D366; color: #fff; text-decoration: none; 
-             padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; margin: 0 10px 12px;
-         }
+        /* المنتجات */
+        .products-section { padding: 20px 15px; display: none; }
+        .products-section.show { display: block; }
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
 
-         /* الفوتر الثابت */
-         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 20px; }
-         .footer-links { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; }
-         .btn-footer { width: 100%; max-width: 300px; padding: 14px; border-radius: 50px; text-decoration: none; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.9rem; }
-         .fb-color { background: #1877F2; color: white; }
-         .wa-color { background: #25D366; color: white; }
-         .call-color { background: #fff; color: #1a1a1a; }
+        .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
+        .img-container { width: 100%; height: 200px; background: #f9f9f9; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-         @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
-     </style>
- </head>
- <body>
+        .product-info { padding: 12px; text-align: center; }
+        .product-info h3 { font-size: 0.9rem; color: #333; margin-bottom: 5px; }
+        .price { color: #d4af37; font-weight: 800; font-size: 1.1rem; margin-bottom: 10px; }
 
-     <nav><div class="logo">NEW LOOK</div></nav>
+        .wa-card-btn { 
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: #25D366; color: #fff; text-decoration: none; 
+            padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; margin: 0 10px 12px;
+        }
 
-     <div class="category-switcher">
-         <div class="icon-grid">
-             <div class="category-btn active" onclick="showCategory('shirts', this)"><i class="fas fa-shirt"></i><span>القمصان</span></div>
-             <div class="category-btn" onclick="showCategory('pants', this)"><i class="fas fa-layer-group"></i><span>السراويل</span></div>
-             <div class="category-btn" onclick="showCategory('jackets', this)"><i class="fas fa-vest"></i><span>السترات</span></div>
-             <div class="category-btn" onclick="showCategory('shoes', this)"><i class="fas fa-boot-heeled"></i><span>أحذية</span></div>
-             <div class="category-btn" onclick="showCategory('suits', this)"><i class="fas fa-user-tie"></i><span>أطقم كاملة</span></div>
-         </div>
-     </div>
+        footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; }
+        .footer-links { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; }
+        .btn-footer { width: 100%; max-width: 300px; padding: 14px; border-radius: 50px; text-decoration: none; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.9rem; }
+        .fb-color { background: #1877F2; color: white; }
+        .wa-color { background: #25D366; color: white; }
+        .call-color { background: #fff; color: #1a1a1a; }
 
-     <section id="shirts" class="products-section show"><div id="shirts-grid" class="product-grid"></div></section>
-     <section id="pants" class="products-section"><div id="pants-grid" class="product-grid"></div></section>
-     <section id="jackets" class="products-section"><div id="jackets-grid" class="product-grid"></div></section>
-     <section id="shoes" class="products-section"><div id="shoes-grid" class="product-grid"></div></section>
-     <section id="suits" class="products-section"><div id="suits-grid" class="product-grid"></div></section>
+        @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+    </style>
+</head>
+<body>
 
-     <footer>
-         <span style="font-weight: 800; font-size: 1.5rem;">NEW LOOK DZ</span>
-         <div class="footer-links">
-             <a href="#" class="btn-footer fb-color"><i class="fab fa-facebook-f"></i> فيسبوك</a>
-             <a href="https://wa.me/213772388571" class="btn-footer wa-color"><i class="fab fa-whatsapp"></i> واتساب</a>
-             <a href="tel:213772388571" class="btn-footer call-color"><i class="fas fa-phone"></i> اتصل بنا</a>
-         </div>
-     </footer>
+    <nav><div class="logo">NEW LOOK</div></nav>
 
-     <script>
-         const phone = "213772388571";
+    <div class="category-switcher" id="categoryNav">
+        <div class="icon-grid">
+            <div class="category-btn active" onclick="showCategory('shirts', this)"><i class="fas fa-shirt"></i><span>القمصان</span></div>
+            <div class="category-btn" onclick="showCategory('pants', this)"><i class="fas fa-layer-group"></i><span>السراويل</span></div>
+            <div class="category-btn" onclick="showCategory('jackets', this)"><i class="fas fa-vest"></i><span>السترات</span></div>
+            <div class="category-btn" onclick="showCategory('shoes', this)"><i class="fas fa-boot-heeled"></i><span>أحذية</span></div>
+            <div class="category-btn" onclick="showCategory('suits', this)"><i class="fas fa-user-tie"></i><span>أطقم كاملة</span></div>
+        </div>
+    </div>
 
-         // صور ملابس فقط (محترمة وبدون أشخاص)
-         const placeholderImages = {
-             shirts: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80",
-             pants: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500&q=80",
-             jackets: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80",
-             shoes: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",
-             suits: "https://images.unsplash.com/photo-1594932224828-b4b059b6f68e?w=500&q=80"
-         };
+    <div class="content-wrapper">
+        <section id="shirts" class="products-section show"><div id="shirts-grid" class="product-grid"></div></section>
+        <section id="pants" class="products-section"><div id="pants-grid" class="product-grid"></div></section>
+        <section id="jackets" class="products-section"><div id="jackets-grid" class="product-grid"></div></section>
+        <section id="shoes" class="products-section"><div id="shoes-grid" class="product-grid"></div></section>
+        <section id="suits" class="products-section"><div id="suits-grid" class="product-grid"></div></section>
+    </div>
 
-         function initApp() {
-             Object.keys(placeholderImages).forEach(cat => {
-                 const grid = document.getElementById(`${cat}-grid`);
-                 for (let i = 1; i <= 10; i++) {
-                     const price = (Math.floor(Math.random() * 50) + 25) * 100;
-                     grid.innerHTML += `
-                         <div class="product-card">
-                             <div class="img-container">
-                                 <img src="${placeholderImages[cat]}&sig=${cat}${i}" alt="ملابس">
-                             </div>
-                             <div class="product-info">
-                                 <h3>موديل راقي #${i}</h3>
-                                 <p class="price">${price} د.ج</p>
-                                 <a href="https://wa.me/${phone}?text=اطلب موديل ${cat} رقم ${i}" class="wa-card-btn">
-                                     <i class="fab fa-whatsapp"></i> اطلب الآن
-                                 </a>
-                             </div>
-                         </div>`;
-                 }
-             });
-         }
+    <footer>
+        <span style="font-weight: 800; font-size: 1.5rem;">NEW LOOK DZ</span>
+        <div class="footer-links">
+            <a href="#" class="btn-footer fb-color"><i class="fab fa-facebook-f"></i> فيسبوك</a>
+            <a href="https://wa.me/213772388571" class="btn-footer wa-color"><i class="fab fa-whatsapp"></i> واتساب</a>
+            <a href="tel:213772388571" class="btn-footer call-color"><i class="fas fa-phone"></i> اتصل بنا</a>
+        </div>
+    </footer>
 
-         function showCategory(id, btn) {
-             document.querySelectorAll('.products-section').forEach(s => s.classList.remove('show'));
-             document.getElementById(id).classList.add('show');
-             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-             btn.classList.add('active');
-             window.scrollTo({ top: 70, behavior: 'smooth' });
-         }
+    <script>
+        const phone = "213772388571";
 
-         initApp();
-     </script>
- </body>
- </html>
+        // إخفاء الشريط عند التمرير للأسفل وإظهاره عند التمرير للأعلى
+        let lastScroll = 0;
+        const categoryNav = document.getElementById('categoryNav');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll <= 70) {
+                categoryNav.classList.remove('hide-nav');
+                return;
+            }
+            if (currentScroll > lastScroll && !categoryNav.classList.contains('hide-nav')) {
+                // تمرير للأسفل - إخفاء
+                categoryNav.classList.add('hide-nav');
+            } else if (currentScroll < lastScroll && categoryNav.classList.contains('hide-nav')) {
+                // تمرير للأعلى - إظهار
+                categoryNav.classList.remove('hide-nav');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // صور ملابس فقط (حلال)
+        const placeholderImages = {
+            shirts: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500",
+            pants: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500",
+            jackets: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500",
+            shoes: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
+            suits: "https://images.unsplash.com/photo-1594932224828-b4b059b6f68e?w=500"
+        };
+
+        function initApp() {
+            Object.keys(placeholderImages).forEach(cat => {
+                const grid = document.getElementById(`${cat}-grid`);
+                for (let i = 1; i <= 10; i++) {
+                    const price = (Math.floor(Math.random() * 50) + 25) * 100;
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <div class="img-container">
+                                <img src="${placeholderImages[cat]}&sig=${cat}${i}" alt="ملابس">
+                            </div>
+                            <div class="product-info">
+                                <h3>موديل راقي #${i}</h3>
+                                <p class="price">${price} د.ج</p>
+                                <a href="https://wa.me/${phone}?text=اطلب موديل ${cat} رقم ${i}" class="wa-card-btn">
+                                    <i class="fab fa-whatsapp"></i> اطلب الآن
+                                </a>
+                            </div>
+                        </div>`;
+                }
+            });
+        }
+
+        function showCategory(id, btn) {
+            document.querySelectorAll('.products-section').forEach(s => s.classList.remove('show'));
+            document.getElementById(id).classList.add('show');
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // عند اختيار قسم، نظهر الشريط مجدداً ليتأكد المستخدم من اختياره
+            categoryNav.classList.remove('hide-nav');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        initApp();
+    </script>
+</body>
+</html>

@@ -11,7 +11,7 @@
         body { background-color: #fafafa; padding-top: 70px; }
         nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 2000; }
         .logo { font-size: 1.6rem; font-weight: 800; color: #000; }
-        .category-switcher { background: #fff; padding: 15px 5%; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+        .category-switcher { background: #fff; padding: 15px 5%; border-bottom: 1px solid #eee; margin-bottom: 10px; position: sticky; top: 70px; z-index: 1000; }
         .icon-grid { display: flex; justify-content: space-around; gap: 10px; }
         .category-btn { background: #fff; border: 1px solid #eee; padding: 15px 5px; width: 30%; text-align: center; cursor: pointer; border-radius: 12px; transition: 0.3s; color: #888; display: flex; flex-direction: column; align-items: center; }
         .category-btn i { font-size: 1.6rem; margin-bottom: 8px; }
@@ -20,11 +20,12 @@
         .products-section { padding: 20px 5%; display: none; }
         .products-section.show { display: block; }
         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .product-card { background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden; display: flex; flex-direction: column; }
-        .img-container { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; }
-        .img-container img { max-width: 95%; max-height: 95%; object-fit: contain; }
+        .product-card { background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .img-container { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; background: #f9f9f9; }
+        .img-container img { max-width: 100%; max-height: 100%; object-fit: cover; width: 100%; height: 100%; }
         .product-info { padding: 10px; text-align: center; flex-grow: 1; }
-        .product-info h3 { font-size: 0.85rem; height: 40px; overflow: hidden; }
+        .product-info h3 { font-size: 0.85rem; height: 40px; overflow: hidden; color: #333; }
         .price { color: #d4af37; font-weight: 800; margin-top: 5px; }
         .wa-card-btn { display: block; background: #25D366; color: #fff; text-align: center; text-decoration: none; padding: 10px; margin: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; }
         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 50px; }
@@ -55,19 +56,49 @@
     <footer>
         <span class="footer-logo">NEW LOOK DZ</span>
         <div class="footer-links" id="footer-links">
-            </div>
+            <a id="fb-link" href="#" target="_blank" class="btn-footer fb-color"><i class="fab fa-facebook-f"></i> فيسبوك</a>
+            <a href="https://wa.me/213772388571" target="_blank" class="btn-footer wa-color"><i class="fab fa-whatsapp"></i> واتساب</a>
+            <a href="tel:213772388571" class="btn-footer call-color"><i class="fas fa-phone"></i> اتصل بنا</a>
+        </div>
         <p style="margin-top: 30px; font-size: 0.75rem; opacity: 0.4;">© 2026 جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        let globalPhone = "213772388571"; // افتراضي
+        let globalPhone = "213772388571"; 
         const csvUrl = 'https://docs.google.com/spreadsheets/d/1-4Q7QLFYFJqkbcLVRt8NFamjsYnSWjCw3onIz2OV1ak/export?format=csv';
 
+        // دالة لملء بيانات تجريبية (10 صور لكل قسم)
+        function loadPlaceholderData() {
+            const categories = [
+                { id: 'shirts', name: 'قميص موديل', img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500' },
+                { id: 'pants', name: 'سروال موديل', img: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=500' },
+                { id: 'jackets', name: 'سترة موديل', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500' }
+            ];
+
+            categories.forEach(cat => {
+                for (let i = 1; i <= 10; i++) {
+                    renderProduct(cat.id, `${cat.name} ${i}`, (1500 + (i * 100)), cat.img);
+                }
+            });
+        }
+
         async function loadAllData() {
+            // أولاً نملأ الموقع بصور تجريبية
+            loadPlaceholderData();
+
             try {
                 const response = await fetch(csvUrl);
+                if (!response.ok) return;
+
                 const data = await response.text();
                 const rows = data.split('\n').slice(1);
+
+                // إذا نجح تحميل بيانات CSV، نقوم بتفريغ الصور التجريبية لاستبدالها ببياناتك الحقيقية
+                if (rows.length > 0) {
+                    document.getElementById('shirts-grid').innerHTML = '';
+                    document.getElementById('pants-grid').innerHTML = '';
+                    document.getElementById('jackets-grid').innerHTML = '';
+                }
 
                 rows.forEach(row => {
                     const cols = row.split(',');
@@ -77,21 +108,15 @@
                         const value = cols[2].trim();
                         const img = cols[3] ? cols[3].trim() : "";
 
-                        // معالجة الإعدادات (الهاتف والروابط)
                         if (type === "settings") {
-                            if (key === "phone") {
-                                globalPhone = value;
-                                updateFooter(); 
-                            }
+                            if (key === "phone") { globalPhone = value; updateFooter(); }
                             if (key === "facebook") updateFacebook(value);
-                        } 
-                        // معالجة المنتجات
-                        else {
+                        } else {
                             renderProduct(type, key, value, img);
                         }
                     }
                 });
-            } catch (e) { console.error("Error:", e); }
+            } catch (e) { console.error("CSV Load Error, using placeholders."); }
         }
 
         function renderProduct(cat, name, price, img) {
@@ -100,9 +125,16 @@
                 const msg = encodeURIComponent(`أريد طلب: ${name}\nالسعر: ${price} د.ج`);
                 container.innerHTML += `
                     <div class="product-card">
-                        <div class="img-container"><img src="${img}" onerror="this.src='https://via.placeholder.com/150'"></div>
-                        <div class="product-info"><h3>${name}</h3><p class="price">${price} د.ج</p></div>
-                        <a href="https://wa.me/${globalPhone}?text=${msg}" target="_blank" class="wa-card-btn">اطلب الآن</a>
+                        <div class="img-container">
+                            <img src="${img}" onerror="this.src='https://via.placeholder.com/300x400?text=No+Image'">
+                        </div>
+                        <div class="product-info">
+                            <h3>${name}</h3>
+                            <p class="price">${price} د.ج</p>
+                        </div>
+                        <a href="https://wa.me/${globalPhone}?text=${msg}" target="_blank" class="wa-card-btn">
+                            <i class="fab fa-whatsapp"></i> اطلب الآن
+                        </a>
                     </div>`;
             }
         }
@@ -123,13 +155,15 @@
 
         function showCategory(id, btn) {
             document.querySelectorAll('.products-section').forEach(s => s.classList.remove('show'));
-            document.getElementById(id).classList.add('show');
+            const target = document.getElementById(id);
+            if(target) target.classList.add('show');
+
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            window.scrollTo({ top: 70, behavior: 'smooth' });
         }
 
         loadAllData();
     </script>
 </body>
 </html>
-

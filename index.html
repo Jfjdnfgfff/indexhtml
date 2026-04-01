@@ -8,92 +8,63 @@
      <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
      <style>
          * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-         body { background-color: #f8f9fa; padding-top: 70px; }
+         body { background-color: #f8f9fa; padding-top: 75px; }
 
-         /* الهيدر الثابت */
+         /* الهيدر */
          nav { background: #fff; position: fixed; top: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 2000; }
          .logo { font-size: 1.6rem; font-weight: 800; color: #000; }
 
-         /* شريط الأيقونات القابل للتمرير */
+         /* شريط الأقسام القابل للتمرير */
          .category-switcher { 
              background: #fff; 
-             padding: 15px 10px; 
+             padding: 15px 0; 
              position: sticky; 
              top: 70px; 
              z-index: 1000; 
              border-bottom: 1px solid #eee;
-             overflow-x: auto; /* يسمح بالتمرير الأفقي */
-             white-space: nowrap; /* يمنع نزول الأيقونات لسطر جديد */
-             -webkit-overflow-scrolling: touch;
+             overflow-x: auto; /* تمكين التمرير الأفقي */
+             white-space: nowrap; 
+             -webkit-overflow-scrolling: touch; /* تمرير سلس على الآيفون */
          }
-         /* إخفاء شريط التمرير الافتراضي لشكل أجمل */
-         .category-switcher::-webkit-scrollbar { display: none; }
+         .category-switcher::-webkit-scrollbar { display: none; } /* إخفاء شريط التمرير */
 
-         .icon-grid { 
-             display: inline-flex; 
-             gap: 15px; 
-             padding-right: 5%; 
-             padding-left: 5%;
-         }
+         .icon-grid { display: inline-flex; padding: 0 15px; gap: 12px; }
 
          .category-btn { 
-             background: #fff; 
-             border: 1.5px solid #eee; 
-             padding: 12px; 
-             min-width: 100px; 
-             text-align: center; 
-             cursor: pointer; 
-             border-radius: 15px; 
-             transition: 0.3s; 
-             color: #888; 
-             display: flex;
-             flex-direction: column;
-             align-items: center;
+             display: flex; flex-direction: column; align-items: center; 
+             background: #fff; border: 1.5px solid #eee; padding: 12px; 
+             min-width: 105px; border-radius: 15px; cursor: pointer; transition: 0.3s; color: #888;
          }
-
-         .category-btn.active { 
-             border-color: #d4af37; 
-             color: #d4af37; 
-             background: #fffdf5; 
-             box-shadow: 0 4px 12px rgba(212,175,55,0.15); 
-         }
-
-         .category-btn i { font-size: 1.5rem; margin-bottom: 8px; }
+         .category-btn.active { border-color: #d4af37; color: #d4af37; background: #fffdf5; box-shadow: 0 4px 10px rgba(212,175,55,0.1); }
+         .category-btn i { font-size: 1.5rem; margin-bottom: 5px; }
          .category-btn span { font-size: 0.85rem; font-weight: 700; }
 
-         /* شبكة المنتجات */
-         .products-section { padding: 20px 5%; display: none; }
+         /* المنتجات */
+         .products-section { padding: 20px 15px; display: none; }
          .products-section.show { display: block; }
          .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
 
-         .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
-         .img-container { width: 100%; height: 240px; background: #f9f9f9; }
+         .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
+         .img-container { width: 100%; height: 200px; background: #f9f9f9; }
          .img-container img { width: 100%; height: 100%; object-fit: cover; }
 
          .product-info { padding: 12px; text-align: center; }
-         .product-info h3 { font-size: 0.9rem; color: #333; margin-bottom: 6px; }
-         .price { color: #d4af37; font-weight: 800; font-size: 1.1rem; }
+         .product-info h3 { font-size: 0.9rem; color: #333; margin-bottom: 5px; }
+         .price { color: #d4af37; font-weight: 800; font-size: 1.1rem; margin-bottom: 10px; }
 
          .wa-card-btn { 
              display: flex; align-items: center; justify-content: center; gap: 8px;
-             background: #25D366; color: #fff; text-align: center; text-decoration: none; 
-             padding: 12px; margin: 10px; border-radius: 12px; font-weight: 700; font-size: 0.85rem; 
+             background: #25D366; color: #fff; text-decoration: none; 
+             padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; margin: 0 10px 12px;
          }
 
-         /* الفوتر والأزرار السفلية */
-         footer { background: #1a1a1a; color: #fff; padding: 50px 20px; text-align: center; margin-top: 40px; }
-         .footer-logo { font-size: 1.7rem; font-weight: 800; margin-bottom: 25px; display: block; letter-spacing: 1px; }
-         .footer-links { display: flex; flex-direction: column; align-items: center; gap: 15px; }
-
-         .btn-footer { 
-             width: 100%; max-width: 320px; padding: 16px; border-radius: 15px; 
-             text-decoration: none; font-weight: 700; display: flex; align-items: center; 
-             justify-content: center; gap: 12px; font-size: 0.95rem; transition: 0.3s; 
-         }
-
+         /* الفوتر الثابت */
+         footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 20px; }
+         .footer-links { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; }
+         .btn-footer { width: 100%; max-width: 300px; padding: 14px; border-radius: 50px; text-decoration: none; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.9rem; }
          .fb-color { background: #1877F2; color: white; }
          .wa-color { background: #25D366; color: white; }
-         .call-color { background: #fff; color: #1a1a1a; border: 1px solid #ddd; }
+         .call-color { background: #fff; color: #1a1a1a; }
 
          @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
      </style>
@@ -104,18 +75,11 @@
 
      <div class="category-switcher">
          <div class="icon-grid">
-             <div class="category-btn active" onclick="showCategory('shirts', this)">
-                 <i class="fas fa-shirt"></i><span>القمصان</span>
-             </div>
-             <div class="category-btn" onclick="showCategory('pants', this)">
-                 <i class="fas fa-layer-group"></i><span>السراويل</span>
-             </div>
-             <div class="category-btn" onclick="showCategory('jackets', this)">
-                 <i class="fas fa-vest"></i><span>السترات</span>
-             </div>
-             <div class="category-btn" onclick="showCategory('shoes', this)">
-                 <i class="fas fa-boot-heeled"></i><span>أحذية</span>
-             </div>
+             <div class="category-btn active" onclick="showCategory('shirts', this)"><i class="fas fa-shirt"></i><span>القمصان</span></div>
+             <div class="category-btn" onclick="showCategory('pants', this)"><i class="fas fa-layer-group"></i><span>السراويل</span></div>
+             <div class="category-btn" onclick="showCategory('jackets', this)"><i class="fas fa-vest"></i><span>السترات</span></div>
+             <div class="category-btn" onclick="showCategory('shoes', this)"><i class="fas fa-boot-heeled"></i><span>أحذية</span></div>
+             <div class="category-btn" onclick="showCategory('suits', this)"><i class="fas fa-user-tie"></i><span>أطقم كاملة</span></div>
          </div>
      </div>
 
@@ -123,85 +87,59 @@
      <section id="pants" class="products-section"><div id="pants-grid" class="product-grid"></div></section>
      <section id="jackets" class="products-section"><div id="jackets-grid" class="product-grid"></div></section>
      <section id="shoes" class="products-section"><div id="shoes-grid" class="product-grid"></div></section>
+     <section id="suits" class="products-section"><div id="suits-grid" class="product-grid"></div></section>
 
      <footer>
-         <span class="footer-logo">NEW LOOK DZ</span>
+         <span style="font-weight: 800; font-size: 1.5rem;">NEW LOOK DZ</span>
          <div class="footer-links">
-             <a href="https://facebook.com/yourpage" target="_blank" class="btn-footer fb-color">
-                 <i class="fab fa-facebook-f"></i> تابعنا على فيسبوك
-             </a>
-             <a href="https://wa.me/213772388571" target="_blank" class="btn-footer wa-color">
-                 <i class="fab fa-whatsapp"></i> واتساب (اطلب الآن)
-             </a>
-             <a href="tel:213772388571" class="btn-footer call-color">
-                 <i class="fas fa-phone"></i> اتصل بنا هاتفياً
-             </a>
+             <a href="#" class="btn-footer fb-color"><i class="fab fa-facebook-f"></i> فيسبوك</a>
+             <a href="https://wa.me/213772388571" class="btn-footer wa-color"><i class="fab fa-whatsapp"></i> واتساب</a>
+             <a href="tel:213772388571" class="btn-footer call-color"><i class="fas fa-phone"></i> اتصل بنا</a>
          </div>
-         <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">© 2026 جميع الحقوق محفوظة - متجر NEW LOOK</p>
      </footer>
 
      <script>
-         const globalPhone = "213772388571";
+         const phone = "213772388571";
 
-         // دالة إنشاء كرت المنتج
-         function createProductCard(cat, name, price, img, id) {
-             const container = document.getElementById(`${cat}-grid`);
-             if (container) {
-                 const msg = encodeURIComponent(`مرحباً NEW LOOK، أريد طلب:\n${name}\nالسعر: ${price}`);
-                 container.innerHTML += `
-                     <div class="product-card">
-                         <div class="img-container">
-                             <img src="${img}" onerror="this.src='https://loremflickr.com/400/500/fashion?sig=${id}'">
-                         </div>
-                         <div class="product-info">
-                             <h3>${name}</h3>
-                             <p class="price">${price}</p>
-                         </div>
-                         <a href="https://wa.me/${globalPhone}?text=${msg}" target="_blank" class="wa-card-btn">
-                             <i class="fab fa-whatsapp"></i> اطلب الآن
-                         </a>
-                     </div>`;
-             }
-         }
+         // صور ملابس فقط (محترمة وبدون أشخاص)
+         const placeholderImages = {
+             shirts: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80",
+             pants: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500&q=80",
+             jackets: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80",
+             shoes: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",
+             suits: "https://images.unsplash.com/photo-1594932224828-b4b059b6f68e?w=500&q=80"
+         };
 
-         // تعبئة 10 صور لكل قسم
          function initApp() {
-             const sections = [
-                 { id: 'shirts', title: 'قميص عصري', img: 'https://images.unsplash.com/photo-1589310243389-96a5483213a8?q=80&w=500&auto=format&fit=crop' },
-                 { id: 'pants', title: 'سروال كلاسيك', img: 'https://images.unsplash.com/photo-1624371414361-e6e9ea58085c?q=80&w=500&auto=format&fit=crop' },
-                 { id: 'jackets', title: 'سترة شتوية', img: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?q=80&w=500&auto=format&fit=crop' },
-                 { id: 'shoes', title: 'حذاء رياضي', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=500&auto=format&fit=crop' }
-             ];
-
-             sections.forEach(sec => {
-                 const grid = document.getElementById(`${sec.id}-grid`);
-                 if(grid) {
-                     grid.innerHTML = '';
-                     for (let i = 1; i <= 10; i++) {
-                         const pic = `${sec.img}&sig=${sec.id}${i}`;
-                         createProductCard(sec.id, `${sec.title} موديل ${i}`, "4800 د.ج", pic, i);
-                     }
+             Object.keys(placeholderImages).forEach(cat => {
+                 const grid = document.getElementById(`${cat}-grid`);
+                 for (let i = 1; i <= 10; i++) {
+                     const price = (Math.floor(Math.random() * 50) + 25) * 100;
+                     grid.innerHTML += `
+                         <div class="product-card">
+                             <div class="img-container">
+                                 <img src="${placeholderImages[cat]}&sig=${cat}${i}" alt="ملابس">
+                             </div>
+                             <div class="product-info">
+                                 <h3>موديل راقي #${i}</h3>
+                                 <p class="price">${price} د.ج</p>
+                                 <a href="https://wa.me/${phone}?text=اطلب موديل ${cat} رقم ${i}" class="wa-card-btn">
+                                     <i class="fab fa-whatsapp"></i> اطلب الآن
+                                 </a>
+                             </div>
+                         </div>`;
                  }
              });
          }
 
-         // دالة تبديل الأقسام
          function showCategory(id, btn) {
-             // إخفاء الكل
              document.querySelectorAll('.products-section').forEach(s => s.classList.remove('show'));
-             // إظهار المختار
-             const target = document.getElementById(id);
-             if(target) target.classList.add('show');
-
-             // تحديث شكل الزر
+             document.getElementById(id).classList.add('show');
              document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
              btn.classList.add('active');
-
-             // تمرير تلقائي للأعلى عند التغيير
              window.scrollTo({ top: 70, behavior: 'smooth' });
          }
 
-         // تشغيل عند التحميل
          initApp();
      </script>
  </body>
